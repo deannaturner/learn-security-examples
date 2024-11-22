@@ -31,5 +31,13 @@ This will create a database in MongoDB called __infodisclosure__. Verify its pre
 Answer the following:
 
 1. Briefly explain the potential vulnerabilities in **insecure.ts** that can lead to a DoS attack.
+
+When findOne is called, there is never any check to make sure that the uid passed to that function is a valid id to search on.
+
 2. Briefly explain how a malicious attacker can exploit them.
+
+A malicious user can insert NoSQL (or other garbage) into the query to crash the server.
+
 3. Briefly explain the defensive techniques used in **secure.ts** to prevent the DoS vulnerability?
+
+`secure.ts` puts a try-catch block around the call to findOne to sanitize the inputs (id). This way, if a malicious user injects garbage into the query, a 500 internal server error will be thrown as opposed to crashing the server.
